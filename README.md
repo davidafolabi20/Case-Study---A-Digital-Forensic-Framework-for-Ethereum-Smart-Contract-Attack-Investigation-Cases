@@ -26,3 +26,12 @@ Further examining the logs on etherscan revealed that the attacker with the Ethe
 
 ### Smart Contract Analysis
 In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called VaultCore.sol, and it is responsible for handling deposits and withdrawals of supported assets. They include mint(,) which increases OUSD supply when assets are deposited into the vault. Redeem(), which decreases the supply of OUSD when assets are withdrawn from the vault. Allocate(), a function that redistributes assets between vaults, and rebase(), this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, this is executed via the flash() function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
+
+#### Major Functions
+**Minting**
+_function mint(address _asset, uint256 _amount)
+external
+whenNotDepositPaused
+{
+ // Implementation
+}
