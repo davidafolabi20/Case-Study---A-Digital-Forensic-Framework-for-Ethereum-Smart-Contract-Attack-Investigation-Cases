@@ -12,3 +12,6 @@ This exploit was first reported on the 17th of November 2020 by the co-founder o
 <p align="center">
   <img src="https://github.com/user-attachments/assets/bff007fb-9187-4531-baad-4c3cf1623336" alt="Origin Protocol Exploit">
 </p>
+<p align="center">
+  <em>Figure 1: Matthew Liu responds to the Origin Dollar exploit via X.</em>
+</p>
