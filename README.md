@@ -13,5 +13,9 @@ This exploit was first reported on the 17th of November 2020 by the co-founder o
   <img src="https://github.com/user-attachments/assets/bff007fb-9187-4531-baad-4c3cf1623336" alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 1: Matthew Liu responds to the Origin Dollar exploit via X.</em>
+  <em>Figure 1: Matthew Liu responds to the Origin Dollar exploit via X</em>
 </p>
+
+Here are key information we have been able to gather from this.
+* Initial Transaction hash; [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401)
+* 
