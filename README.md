@@ -19,4 +19,6 @@ This exploit was first reported on the 17th of November 2020 by the co-founder o
 Here are key information we have been able to gather from this.
 * Initial Transaction hash; [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401)
 * Timestamp; Nov-17-2020, 12:47:19 AM UTC.
-* This transaction hash reveals the address that initiated the transaction [0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83](https://etherscan.io/address/0xb77f7bbac3264ae7abc8aedf2ec5f4e7ca079f83). As well as the address that executed the transaction [0x47C3d84394043a4f42F6422AcCD27bB7240FDFE2](https://etherscan.io/address/0x47c3d84394043a4f42f6422accd27bb7240fdfe2); 
+* This transaction hash reveals the address that initiated the transaction [0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83](https://etherscan.io/address/0xb77f7bbac3264ae7abc8aedf2ec5f4e7ca079f83). As well as the address that executed the transaction [0x47C3d84394043a4f42F6422AcCD27bB7240FDFE2](https://etherscan.io/address/0x47c3d84394043a4f42f6422accd27bb7240fdfe2).
+
+Further examining the logs on etherscan revealed that the attacker with the Ethereum address - **0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83** created the contract they used to attack Origin's USD contract (**0x47C3d84394043a4f42F6422AcCD27bB7240FDFE2**). This occurred about 7 minutes before he first exploited the Origin USD contract; , Nov-17-2020, 12:40:56 AM UTC.
