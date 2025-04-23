@@ -4,6 +4,13 @@ The case study used here is the Origin protocol exploit. It was used to validate
 
 We shall now follow the phases as originally described.
 
+## Code Analysis
+I've uploaded a sample of the vulnerable code as `VaultCore.sol` in this repository. Throughout this analysis, I'll reference specific line numbers and major functions from this file to illustrate the vulnerability and explain how the exploit was executed.
+
+Key functions such as `mint()`, `redeem()`, and `rebase()` will be examined in detail, as they played critical roles in the execution of this exploit.
+
+To better understand the technical details of this case study, I recommend examining the code alongside this analysis.
+
 ## Origin Protocol Exploit
 ### Background and Information Gathering
 Origin Protocol is a blockchain project focused on building a decentralized e-commerce ecosystem. One of their key offerings was Origin USD (OUSD), a yield-bearing stablecoin. On November 17, 2020, the OUSD smart contract was exploited, resulting in approximately $7 million in losses.
