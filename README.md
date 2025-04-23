@@ -30,9 +30,9 @@ In this section, the functionality of the smart contract and the invocation flow
 #### Major Functions
 **Minting**
 
-function mint(address _asset, uint256 _amount)
-external
-whenNotDepositPaused
-{
- // Implementation
-}
+function mint(address _asset, uint256 _amount) /n
+external /n
+whenNotDepositPaused /n
+{ /n
+ // Implementation /n
+} /n
