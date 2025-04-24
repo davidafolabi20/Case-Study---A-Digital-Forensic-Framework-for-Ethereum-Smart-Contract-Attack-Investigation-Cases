@@ -4,14 +4,14 @@
   <img src=https://github.com/user-attachments/assets/d6e955ff-48b7-486d-9376-814929385094 alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 1:Exploit timeline, part 1</em>
+  <em>Figure 1: Exploit timeline, part 1</em>
 </p>
 
 <p align="center">
   <img src=https://github.com/user-attachments/assets/4a653648-b16b-4055-8919-a9bf16283405 alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 2:Exploit timeline, part 2</em>
+  <em>Figure 2: Exploit timeline, part 2</em>
 </p>
 
 Additional details include the estimated loss reported by Origin protocol; $7.5 million. The exploit itself was initiated and completed within 15 minutes, and the smart contract was made to ‘**self-destruct**’ 7 minutes after it was deployed. Finally, the attacker continued to obfuscate funds for up to 63 days after the exploit was carried out.
