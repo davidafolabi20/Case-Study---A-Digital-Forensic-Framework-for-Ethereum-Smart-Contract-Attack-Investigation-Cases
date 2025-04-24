@@ -164,4 +164,5 @@ Using Etherscan, transaction records of the address found to be the exploiter’
 <p align="center">
   <em>Figure 13: The last transaction carried out by the attacker was a self-destruct call to the contract they created</em>
 </p>
+
   The last major transaction recorded in this exploit sequence involves the attacker calling a self-destruct method on the    smart contract that was used to perpetrate the exploit. This method essentially removes the bytecode of the smart           contract from the blockchain, which will make future investigation of its functionality more difficult. From the            timestamp in this transaction, it can be seen that the exploit took place within 15 minutes from the initial exploit        transaction to the last, see Figure 13 above.
