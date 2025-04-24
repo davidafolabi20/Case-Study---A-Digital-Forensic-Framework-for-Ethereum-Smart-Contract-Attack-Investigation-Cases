@@ -104,3 +104,5 @@ The attacker proceeds to withdraw their profit as seen in the figure above. In t
 “CALL | value: 70000.000000000000000002 Wrapped Ether (WETH).deposit () > ()”
 
 This invocation flow reveals the mechanism of the vulnerability, illustrating a complex attack that employed flash loans, price manipulation and vulnerabilities in the rebasing logic used by Origin protocol. This vulnerability was used over several different transactions within a few minutes on the 10th of November to drain the Origin contract of enormous amounts of funds. 
+
+### Transaction Analysis
