@@ -121,3 +121,4 @@ Using Etherscan, transaction records of the address found to be the exploiter’
 <p align="center">
   <em>Figure 8: Details of the first transaction carried out by the attacker’s address</em>
 </p>
+  * Contract Deployment:
