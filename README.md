@@ -177,3 +177,20 @@ Using Etherscan, transaction records of the address found to be the exploiter’
 </p>
 
 ### Fund Flow
+This section examines the movement of funds linked with the Origin Protocol exploit. In this section, the attacker's sophisticated chain of transactions is traced, beginning with the first transaction through token swaps, consolidations, and obfuscation efforts.
+
+Again, using the first exploit transaction; 
+[0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401), Blocksec metasleuth provides an elaborate map using this transaction hash as in Figure 15 and Figure 16 below. The image presents an intricate web of transactions, representing the multi-step exploit executed by the attacker. The attack involved interactions with multiple decentralised finance protocols like Uniswap V2, Aave, and dYdX. Several tokens, including DAI, OUSD, WBTC, and WETH, were swapped before consolidation into the native Ethereum token, which was deposited into Tornado Cash. The fund flow in this instance shows a total of 11,804 ETH being stolen in one transaction.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/089b5bd7-a7e4-4592-bd87-7bee8b7f7a73 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 15: Transaction Map visualised by BlockSec MetaSleuth</em>
+</p>
+
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/b85f48fe-4bd0-4dac-a18a-f74c42d35c46 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 16: Transaction Map visualised by BlockSec MetaSleuth, part 2</em>
+</p>
