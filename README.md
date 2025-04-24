@@ -166,3 +166,14 @@ Using Etherscan, transaction records of the address found to be the exploiter’
 </p>
 
   The last major transaction recorded in this exploit sequence involves the attacker calling a self-destruct method on the    smart contract that was used to perpetrate the exploit. This method essentially removes the bytecode of the smart           contract from the blockchain, which will make future investigation of its functionality more difficult. From the            timestamp in this transaction, it can be seen that the exploit took place within 15 minutes from the initial exploit        transaction to the last, see Figure 13 above.
+
+  The smart contract deployed by the attacker’s address recorded 17 transactions of which 15 were involved in the exploit. 
+  The records also show that the attacker’s address dominated the interactions, initiating 16 out of 17 transactions, see     Figure 14.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/79a06cf5-150c-4bfb-827c-4499e200c083 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 14: The transaction records of the smart contract deployed by the attacker showing a section of all 17 transactions it executed</em>
+</p>
+
+### Fund Flow
