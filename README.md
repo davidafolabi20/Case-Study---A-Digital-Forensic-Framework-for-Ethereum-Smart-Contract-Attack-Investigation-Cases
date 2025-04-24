@@ -32,12 +32,12 @@ Further examining the logs on etherscan revealed that the attacker with the Ethe
 * Transaction hash of the contract creation; [0x646be3dd18187636b09bd61a15d43da0a1ce36af44d21e45f160ecf04a5a3e09](https://etherscan.io/tx/0x646be3dd18187636b09bd61a15d43da0a1ce36af44d21e45f160ecf04a5a3e09).
 
 ## Smart Contract Analysis
-In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called **VaultCore.sol**, and it is responsible for handling deposits and withdrawals of supported assets. They include **mint(,)** which increases OUSD supply when assets are deposited into the vault. **Redeem()**, which decreases the supply of OUSD when assets are withdrawn from the vault. **Allocate()**, a function that redistributes assets between vaults, and **rebase()**, this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, this is executed via the **flash()** function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
+In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called **VaultCore.sol**, and it is responsible for handling deposits and withdrawals of supported assets. They include **mint(,)**, which increases OUSD supply when assets are deposited into the vault. **Redeem()**, which decreases the supply of OUSD when assets are withdrawn from the vault. **Allocate()**, a function that redistributes assets between vaults, and **rebase()**, this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, which is executed via the **flash()** function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
 
 ### Major Functions
-  * Minting; The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
-  * Redeeming OUSD; The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line   119 - 249.
-  * Rebase; This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
+  * Minting: The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
+  * Redeeming OUSD: The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line   119 - 249.
+  * Rebase: This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
   * Asset Allocation: The `allocate()` function distributes assets from the vault to various strategies according to their   target weights. Line 299 - 356
 
 ## Invocation Flow
@@ -56,7 +56,7 @@ The exploit is initiated with a call from the attacker’s custom contract. The 
 
 “CALL dYdX: Solo Margin.operate(uint256) (accounts:[{owner:0x47c5d8459404054f4216472acccd37bb7240fdfe2, number:1}], actions:[{actionType:1, accountId:0, amount:{sign:false, denomination:0, ref:0, value:70,000.000,000,000,000,000,000}, primaryMarketId:0, secondaryMarketId:0, otherAddress:0x0000000000000000000000000000000000000000, otherAccountId:0, data:0x}]) → ()”
 
-According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH which acts as capital for the exploitation. Utilisation of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
+According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH, which acts as capital for the exploitation. Utilisation of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
 
 ### Token Manipulation
 <p align="center">
@@ -70,7 +70,7 @@ According to Figure 2 above, the contract interacts with the ‘dYdX solo margin
 
 ‘CALL Uniswap V2: Router 2.swapExactETHForTokens(uint256,address[],address,uint256)(amountOutMin:1, path:[Wrapped Ether (WETH), Tether: USDT Stablecoin], to:0x47c5d8459404054f4216472acccd37bb7240fdfe2, deadline:1,605,574,859) → (amounts:[7,500,000,000,000,000,000,000, 7,855,911,51])’
 
-The next step involved price manipulation, with a two-stage token conversion of 17,500 WETH to USDT and 52,500 WETH to DAI. These swaps were executed via Uniswap’s V2 Router through a function called swapExactETHForTokens. These swaps impacted the WETH-USDT and WETH-DAI liquidity pools and in effect manipulated token prices, refer to Figure 3.
+The next step involved price manipulation, with a two-stage token conversion of 17,500 WETH to USDT and 52,500 WETH to DAI. These swaps were executed via Uniswap’s V2 Router through a function called swapExactETHForTokens. These swaps impacted the WETH-USDT and WETH-DAI liquidity pools and, in effect, manipulated token prices, refer to Figure 3.
 
 ### Exploitation of OUSD due to poor rebasing logic
 <p align="center">
@@ -114,6 +114,7 @@ This invocation flow reveals the mechanism of the vulnerability, illustrating a 
 </p>
 
 Using Etherscan, transaction records of the address found to be the exploiter’s address can be examined. The attacker has carried out 131 transactions using the address: [0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83](https://etherscan.io/address/0xb77f7bbac3264ae7abc8aedf2ec5f4e7ca079f83), see Figure 7 above. Examining the initial transactions related to the exploit reveals a sequence of events.
+
   * First Transaction: The records show that the attacker first executed an ‘approve’ method on the same day the exploit was carried out, granting permission for token transfers, see Figure 8 below. Transaction Hash: [0xd95a59e64aabfa932620e7770fcd55d904381fe195282202b2fd464ac44a165b](https://etherscan.io/tx/0xd95a59e64aabfa932620e7770fcd55d904381fe195282202b2fd464ac44a165b).
 <p align="center">
   <img src=https://github.com/user-attachments/assets/d7116606-a752-4b29-b40c-ffeea4a30467 alt="Origin Protocol Exploit">
@@ -121,4 +122,46 @@ Using Etherscan, transaction records of the address found to be the exploiter’
 <p align="center">
   <em>Figure 8: Details of the first transaction carried out by the attacker’s address</em>
 </p>
-  * Contract Deployment:
+
+  * Contract Deployment: The second transaction carried out by the attacker is a smart contract that is now known as the        contract used by the attacker to carry out the exploit, see Figure 9.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/dd851971-e331-451a-b441-406729b7b66c alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 9: The first 4 transactions carried out by the attacker’s address</em>
+</p>
+
+  * Failed exploit attempt: The transaction called a method named ‘Do Hard Work’, however, this method failed to execute,       see Figure 9 above.
+  * Successful exploit: Subsequently, the ‘Do Hard Work’ method was executed, which marked the start of the exploit, as         seen in Figure 9.
+  * The transaction logs reveal that the attacker’s address interacted with several decentralised finance (DeFi) protocols      and services, including Ren BTC Gateway, Curve Finance, Uniswap, and the smart contract that was deployed. These            transactions include token exchanges and transfers across many platforms, see Figure 10.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/d148917b-63ca-4a26-adb9-9ed45cda59eb alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 10: These transactions represent the attacker’s address interacting with different DeFi protocols</em>
+</p>
+
+  * More transaction records: The transaction details below show that the exploiter’s address executed a function via the       smart contract it created. In this transaction, the smart contract borrowed, supplied, and withdrew tokens worth large       sums of money, this can be seen in the screenshot in Figure 11 below.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/0cc0c446-9eaf-4646-989d-974d42e3b080 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 11: An elaborate transaction involving borrowing, supplying, and withdrawal of funds</em>
+</p>
+
+  * The token swaps were followed by large deposits into Tornado Cash, these deposits were made in 1s, 10s and 100s with no     definitive pattern to the deposits, as seen in Figure 12. This is a clear indication of the attacker obfuscating the        trail of funds.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/cf2fea0d-6c7e-449f-9646-2d74855a0666 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 12: These transactions represent huge deposits of ETH to Tornado Cash</em>
+</p>
+
+  * Last notable transaction - Self Destruct:
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/e92a369d-5b83-481d-a6c2-3bc56d568202 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 13: The last transaction carried out by the attacker was a self-destruct call to the contract they created</em>
+</p>
+  The last major transaction recorded in this exploit sequence involves the attacker calling a self-destruct method on the    smart contract that was used to perpetrate the exploit. This method essentially removes the bytecode of the smart           contract from the blockchain, which will make future investigation of its functionality more difficult. From the            timestamp in this transaction, it can be seen that the exploit took place within 15 minutes from the initial exploit        transaction to the last, see Figure 13 above.
