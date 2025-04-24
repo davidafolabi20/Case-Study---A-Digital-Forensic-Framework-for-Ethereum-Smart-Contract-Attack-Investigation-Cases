@@ -229,3 +229,20 @@ In this stage of the forensic investigation, we will highlight key findings from
   * After the exploit was concluded, the attacker proceeded to deposit their ill gains to several known fund trail              obfuscators, Tornado Cash and Ren: BTC gateway. This exfiltration of funds did not all occur on the same day, the image     below shows further deposits to the obfuscators **63 days** after the exploit. The funds trail mostly dies at this          point.
 
 **NB**: Ren BTC Gateway; This is an entity that converts a host of tokens from any blockchain into Bitcoin. This indicates      that the attacker offloaded a chunk of the ill gains in exchange for Bitcoin.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/91f91178-0bec-43c7-8b22-afb8f228688d alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 20: Multiple deposits going out to fund obfuscators</em>
+</p>
+
+  * At the moment, the attacker’s wallet holds only approximately $4, see the image below.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/162e61d7-1a97-45ed-aef8-52d7d06b0116 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 21: : Current balance of the attacker’s wallet as of 24th April 2025</em>
+
+### Impact Assessment
+
+</p>
