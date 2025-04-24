@@ -242,7 +242,13 @@ In this stage of the forensic investigation, we will highlight key findings from
 </p>
 <p align="center">
   <em>Figure 21: : Current balance of the attacker’s wallet as of 24th April 2025</em>
+</p>
 
 ### Impact Assessment
+All outgoings were extracted into **CSV** format and analysed to determine how much was exfiltrated excluding gas fees expended. Here is a total of each token:
+* Ethereum (ETH): **3,331.556 ETH**
+* Ethereum was burned for Bitcoin (BTC) seven times, this adds up to **184.29269693 BTC**
+  
+Considering the price of **ETH** on the day the exploit was carried out, 17th November 2020. This loss is estimated at $4,840,090.63. However, this was not all that was stolen.
 
-</p>
+* DAI: The official post from Origin protocol reports that a substantial amount of this token was stolen. Unfortunately, we have not been able to find traces of the attacker exfiltrating this token. This might be due to the self-destruct function called by the attacker’s smart contract. The function resulted in the deletion of the bytecode of the smart contract.
