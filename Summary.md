@@ -1,5 +1,5 @@
 # This section provides a shorter summary of the Origin protocol exploit forensic analysis.
-##Incident Overview
+## Incident Overview
 <p align="center">
   <img src=https://github.com/user-attachments/assets/d6e955ff-48b7-486d-9376-814929385094 alt="Origin Protocol Exploit">
 </p>
