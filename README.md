@@ -44,16 +44,16 @@ In this section, the functionality of the smart contract and the invocation flow
 The invocation flow analysis is an essential phase in our digital forensic framework. It provides detailed information about the types and sequence of interactions that occurred throughout the exploitation of the smart contract. This section covers the technical mechanics of the attack as well as the individual vulnerability exploited. The invocation flow was visualized by supplying the transaction hash to Blocksec Phalcon. In addition, the transaction used in this invocation flow has a transaction hash of [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401).
 
 #### Initial Interaction and Flash Loan Acquisition
+<p align="center">
+https://github.com/user-attachments/assets/41237423-1b6b-402d-a0c6-998c7bfc4af8
+</p>
+<p align="center">
+  <em>Figure 2: Initial Interaction and flash loan acquisition.</em>
+</p>
 
 “CALL | [Receiver] 0x47c5d8459404e5a6f42164427accd27bb7240fdfe2.doHardWork (uint256)(threshold:950) > ()”
-The exploit is initiated with a call from the attacker’s custom contract. The function name 
-‘doHardWork’ suggests a specifically designed contract for this exploit, as seen in the screenshot 
-above.
-“CALL dYdX: Solo Margin.operate(uint256) (accounts:[{owner:0x47c5d8459404054f4216472acccd37bb7240fdfe2, 
-number:1}], actions:[{actionType:1, accountId:0, amount:{sign:false, denomination:0, ref:0, 
-value:70,000.000,000,000,000,000,000}, primaryMarketId:0, secondaryMarketId:0, 
-otherAddress:0x0000000000000000000000000000000000000000, otherAccountId:0, data:0x}]) → ()”
-According to Figure 26 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan 
-worth 70,000 WETH which acts as capital for the exploitation. Utilization of flash loans is a typical 
-practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds 
-without leveraging any collateral.
+The exploit is initiated with a call from the attacker’s custom contract. The function name ‘doHardWork’ suggests a specifically designed contract for this exploit, as seen in the screenshot above.
+
+“CALL dYdX: Solo Margin.operate(uint256) (accounts:[{owner:0x47c5d8459404054f4216472acccd37bb7240fdfe2, number:1}], actions:[{actionType:1, accountId:0, amount:{sign:false, denomination:0, ref:0, value:70,000.000,000,000,000,000,000}, primaryMarketId:0, secondaryMarketId:0, otherAddress:0x0000000000000000000000000000000000000000, otherAccountId:0, data:0x}]) → ()”
+
+According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH which acts as capital for the exploitation. Utilization of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
