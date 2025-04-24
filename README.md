@@ -45,7 +45,7 @@ The invocation flow analysis is an essential phase in our digital forensic frame
 
 #### Initial Interaction and Flash Loan Acquisition
 <p align="center">
-https://github.com/user-attachments/assets/41237423-1b6b-402d-a0c6-998c7bfc4af8
+  <img src=https://github.com/user-attachments/assets/41237423-1b6b-402d-a0c6-998c7bfc4af8 alt="Origin Protocol Exploit">
 </p>
 <p align="center">
   <em>Figure 2: Initial Interaction and flash loan acquisition.</em>
@@ -56,4 +56,28 @@ The exploit is initiated with a call from the attacker’s custom contract. The 
 
 “CALL dYdX: Solo Margin.operate(uint256) (accounts:[{owner:0x47c5d8459404054f4216472acccd37bb7240fdfe2, number:1}], actions:[{actionType:1, accountId:0, amount:{sign:false, denomination:0, ref:0, value:70,000.000,000,000,000,000,000}, primaryMarketId:0, secondaryMarketId:0, otherAddress:0x0000000000000000000000000000000000000000, otherAccountId:0, data:0x}]) → ()”
 
-According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH which acts as capital for the exploitation. Utilization of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
+According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH which acts as capital for the exploitation. Utilisation of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
+
+#### Token Manipulation
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/97e9bc89-8404-47e8-8cbe-29bff4086737 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 3: Token Manipulation</em>
+</p>
+
+‘CALL Wrapped Ether (WETH).withdraw(uint256)(70,000,000,000,000,000,000,000) → ()’
+
+‘CALL Uniswap V2: Router 2.swapExactETHForTokens(uint256,address[],address,uint256)(amountOutMin:1, path:[Wrapped Ether (WETH), Tether: USDT Stablecoin], to:0x47c5d8459404054f4216472acccd37bb7240fdfe2, deadline:1,605,574,859) → (amounts:[7,500,000,000,000,000,000,000, 7,855,911,51])’
+
+The next step involved price manipulation, with a two-stage token conversion of 17,500 WETH to USDT and 52,500 WETH to DAI. These swaps were executed via Uniswap’s V2 Router through a function called swapExactETHForTokens. These swaps impacted the WETH-USDT and WETH-DAI liquidity pools and in effect manipulated token prices, refer to Figure 3.
+
+#### Exploitation of OUSD due to poor rebasing logic
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/9dcbd52f-088e-4f1a-a26c-99f49e8ddbee alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 4:  Exploitation of OUSD due to vulnerable rebasing logic</em>
+</p>
+
+During the next stage of the exploit, the attacker mints and immediately redeems even larger amounts of OUSD tokens by making calls to the `mintMultiple()` function. This exploits the rebasing mechanism of the contract and shows the key vulnerability that was exploited. Via this mechanism, the attacker was able to mint large sums of OUSD at prices that have been manipulated and then redeem the token at a profit.
