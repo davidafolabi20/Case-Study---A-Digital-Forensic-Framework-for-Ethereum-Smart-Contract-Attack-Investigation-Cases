@@ -35,10 +35,10 @@ Further examining the logs on etherscan revealed that the attacker with the Ethe
 In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called **VaultCore.sol**, and it is responsible for handling deposits and withdrawals of supported assets. They include **mint(,)** which increases OUSD supply when assets are deposited into the vault. **Redeem()**, which decreases the supply of OUSD when assets are withdrawn from the vault. **Allocate()**, a function that redistributes assets between vaults, and **rebase()**, this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, this is executed via the **flash()** function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
 
 ### Major Functions
-* Minting; The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
-* Redeeming OUSD; The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line 119 - 249.
-* Rebase; This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
-* Asset Allocation: The `allocate()` function distributes assets from the vault to various strategies according to their target weights. Line 299 - 356
+  * Minting; The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
+  * Redeeming OUSD; The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line   119 - 249.
+  * Rebase; This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
+  * Asset Allocation: The `allocate()` function distributes assets from the vault to various strategies according to their   target weights. Line 299 - 356
 
 ## Invocation Flow
 The invocation flow analysis is an essential phase in our digital forensic framework. It provides detailed information about the types and sequence of interactions that occurred throughout the exploitation of the smart contract. This section covers the technical mechanics of the attack as well as the individual vulnerability exploited. The invocation flow was visualized by supplying the transaction hash to Blocksec Phalcon. In addition, the transaction used in this invocation flow has a transaction hash of [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401).
@@ -77,7 +77,7 @@ The next step involved price manipulation, with a two-stage token conversion of 
   <img src=https://github.com/user-attachments/assets/9dcbd52f-088e-4f1a-a26c-99f49e8ddbee alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 4:  Exploitation of OUSD due to vulnerable rebasing logic</em>
+  <em>Figure 4: Exploitation of OUSD due to vulnerable rebasing logic</em>
 </p>
 
 During the next stage of the exploit, the attacker mints and immediately redeems even larger amounts of OUSD tokens by making calls to the `mintMultiple()` function. This exploits the rebasing mechanism of the contract and shows the key vulnerability that was exploited. Via this mechanism, the attacker was able to mint large sums of OUSD at prices that have been manipulated and then redeem the token at a profit.
@@ -87,14 +87,14 @@ During the next stage of the exploit, the attacker mints and immediately redeems
   <img src=https://github.com/user-attachments/assets/a8ccf257-a11a-4b60-9bfd-9dc5567cdb81 alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 5:  Profit Extraction</em>
+  <em>Figure 5: Profit Extraction</em>
 </p>
 
 <p align="center">
   <img src=https://github.com/user-attachments/assets/cc48fe2f-a0a0-4d45-ac04-9662c3ba56d9 alt="Origin Protocol Exploit">
 </p>
 <p align="center">
-  <em>Figure 6:  Flash Loan Repayment</em>
+  <em>Figure 6: Flash Loan Repayment</em>
 </p>
 
 CALL | Wrapped Ether (WETH).withdraw (uint256)(wad:47,976,521,942,995,684,479,041) > ()”
@@ -106,3 +106,18 @@ The attacker proceeds to withdraw their profit as seen in the figure above. In t
 This invocation flow reveals the mechanism of the vulnerability, illustrating a complex attack that employed flash loans, price manipulation and vulnerabilities in the rebasing logic used by Origin protocol. This vulnerability was used over several different transactions within a few minutes on the 10th of November to drain the Origin contract of enormous amounts of funds. 
 
 ### Transaction Analysis
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/793c766b-1885-41d4-8f7a-e8099e1510ae alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 7: Etherscan shows the total number of transactions carried out from the attacker’s address</em>
+</p>
+
+Using Etherscan, transaction records of the address found to be the exploiter’s address can be examined. The attacker has carried out 131 transactions using the address: [0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83](https://etherscan.io/address/0xb77f7bbac3264ae7abc8aedf2ec5f4e7ca079f83), see Figure 7 above. Examining the initial transactions related to the exploit reveals a sequence of events.
+  * First Transaction: The records show that the attacker first executed an ‘approve’ method on the same day the exploit was carried out, granting permission for token transfers, see Figure 8 below. Transaction Hash: [0xd95a59e64aabfa932620e7770fcd55d904381fe195282202b2fd464ac44a165b](https://etherscan.io/tx/0xd95a59e64aabfa932620e7770fcd55d904381fe195282202b2fd464ac44a165b).
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/d7116606-a752-4b29-b40c-ffeea4a30467 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 8: Details of the first transaction carried out by the attacker’s address</em>
+</p>
