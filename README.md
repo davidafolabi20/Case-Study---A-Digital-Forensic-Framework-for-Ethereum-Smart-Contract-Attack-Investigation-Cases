@@ -31,19 +31,19 @@ Here are key information we have been able to gather from this.
 Further examining the logs on etherscan revealed that the attacker with the Ethereum address - **0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83** created the contract they used to attack Origin's USD contract (**0x47C3d84394043a4f42F6422AcCD27bB7240FDFE2**). This occurred about 7 minutes before he first exploited the Origin USD contract; Nov-17-2020, 12:40:56 AM UTC.
 * Transaction hash of the contract creation; [0x646be3dd18187636b09bd61a15d43da0a1ce36af44d21e45f160ecf04a5a3e09](https://etherscan.io/tx/0x646be3dd18187636b09bd61a15d43da0a1ce36af44d21e45f160ecf04a5a3e09).
 
-### Smart Contract Analysis
+## Smart Contract Analysis
 In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called **VaultCore.sol**, and it is responsible for handling deposits and withdrawals of supported assets. They include **mint(,)** which increases OUSD supply when assets are deposited into the vault. **Redeem()**, which decreases the supply of OUSD when assets are withdrawn from the vault. **Allocate()**, a function that redistributes assets between vaults, and **rebase()**, this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, this is executed via the **flash()** function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
 
-#### Major Functions
+### Major Functions
 * Minting; The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
 * Redeeming OUSD; The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line 119 - 249.
 * Rebase; This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
 * Asset Allocation: The `allocate()` function distributes assets from the vault to various strategies according to their target weights. Line 299 - 356
 
-### Invocation Flow
+## Invocation Flow
 The invocation flow analysis is an essential phase in our digital forensic framework. It provides detailed information about the types and sequence of interactions that occurred throughout the exploitation of the smart contract. This section covers the technical mechanics of the attack as well as the individual vulnerability exploited. The invocation flow was visualized by supplying the transaction hash to Blocksec Phalcon. In addition, the transaction used in this invocation flow has a transaction hash of [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401).
 
-#### Initial Interaction and Flash Loan Acquisition
+### Initial Interaction and Flash Loan Acquisition
 <p align="center">
   <img src=https://github.com/user-attachments/assets/41237423-1b6b-402d-a0c6-998c7bfc4af8 alt="Origin Protocol Exploit">
 </p>
@@ -58,7 +58,7 @@ The exploit is initiated with a call from the attacker’s custom contract. The 
 
 According to Figure 2 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan worth 70,000 WETH which acts as capital for the exploitation. Utilisation of flash loans is a typical practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds without leveraging any collateral.
 
-#### Token Manipulation
+### Token Manipulation
 <p align="center">
   <img src=https://github.com/user-attachments/assets/97e9bc89-8404-47e8-8cbe-29bff4086737 alt="Origin Protocol Exploit">
 </p>
@@ -72,7 +72,7 @@ According to Figure 2 above, the contract interacts with the ‘dYdX solo margin
 
 The next step involved price manipulation, with a two-stage token conversion of 17,500 WETH to USDT and 52,500 WETH to DAI. These swaps were executed via Uniswap’s V2 Router through a function called swapExactETHForTokens. These swaps impacted the WETH-USDT and WETH-DAI liquidity pools and in effect manipulated token prices, refer to Figure 3.
 
-#### Exploitation of OUSD due to poor rebasing logic
+### Exploitation of OUSD due to poor rebasing logic
 <p align="center">
   <img src=https://github.com/user-attachments/assets/9dcbd52f-088e-4f1a-a26c-99f49e8ddbee alt="Origin Protocol Exploit">
 </p>
@@ -81,3 +81,26 @@ The next step involved price manipulation, with a two-stage token conversion of 
 </p>
 
 During the next stage of the exploit, the attacker mints and immediately redeems even larger amounts of OUSD tokens by making calls to the `mintMultiple()` function. This exploits the rebasing mechanism of the contract and shows the key vulnerability that was exploited. Via this mechanism, the attacker was able to mint large sums of OUSD at prices that have been manipulated and then redeem the token at a profit.
+
+### Profit Extraction and Flash Loan Repayment
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/a8ccf257-a11a-4b60-9bfd-9dc5567cdb81 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 5:  Profit Extraction</em>
+</p>
+
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/cc48fe2f-a0a0-4d45-ac04-9662c3ba56d9 alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 6:  Flash Loan Repayment</em>
+</p>
+
+CALL | Wrapped Ether (WETH).withdraw (uint256)(wad:47,976,521,942,995,684,479,041) > ()”
+
+The attacker proceeds to withdraw their profit as seen in the figure above. In this transaction alone, “47,976.521942995684470041 ETH” was withdrawn. After this, the attacker proceeded to repay the flash loan of “70,0000.000000000000000002” wrapped ETH (WETH).
+
+“CALL | value: 70000.000000000000000002 Wrapped Ether (WETH).deposit () > ()”
+
+This invocation flow reveals the mechanism of the vulnerability, illustrating a complex attack that employed flash loans, price manipulation and vulnerabilities in the rebasing logic used by Origin protocol. This vulnerability was used over several different transactions within a few minutes on the 10th of November to drain the Origin contract of enormous amounts of funds. 
