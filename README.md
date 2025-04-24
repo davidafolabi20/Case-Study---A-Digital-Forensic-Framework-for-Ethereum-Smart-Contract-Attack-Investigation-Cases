@@ -35,10 +35,25 @@ Further examining the logs on etherscan revealed that the attacker with the Ethe
 In this section, the functionality of the smart contract and the invocation flow are examined. The smart contract is called **VaultCore.sol**, and it is responsible for handling deposits and withdrawals of supported assets. They include **mint(,)** which increases OUSD supply when assets are deposited into the vault. **Redeem()**, which decreases the supply of OUSD when assets are withdrawn from the vault. **Allocate()**, a function that redistributes assets between vaults, and **rebase()**, this function adjusts the total supply of OUSD. Additionally, the contract facilitates temporary lending of assets known as flash loans, this is executed via the **flash()** function. The code snippets for some of these features can be seen below. The contract also interacts with multiple external contracts, including price oracles and yield strategies.
 
 #### Major Functions
-* Minting; The 'mint()' function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
-* Redeeming OUSD; The 'redeem()' function enables users to burn OUSD tokens and receive underlying assets in return. Line 119 - 249.
+* Minting; The `mint()` function allows users to deposit supported assets and receive OUSD in return. Line 42 - 115.
+* Redeeming OUSD; The `redeem()` function enables users to burn OUSD tokens and receive underlying assets in return. Line 119 - 249.
 * Rebase; This adjusts the total supply of OUSD based on the total value of assets in the vault. Line 361 - 390
-* Asset Allocation: The allocate() function distributes assets from the vault to various strategies according to their target weights. Line 299 - 356
-* Flash Loan: 
+* Asset Allocation: The `allocate()` function distributes assets from the vault to various strategies according to their target weights. Line 299 - 356
 
+### Invocation Flow
+The invocation flow analysis is an essential phase in our digital forensic framework. It provides detailed information about the types and sequence of interactions that occurred throughout the exploitation of the smart contract. This section covers the technical mechanics of the attack as well as the individual vulnerability exploited. The invocation flow was visualized by supplying the transaction hash to Blocksec Phalcon. In addition, the transaction used in this invocation flow has a transaction hash of [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401](https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401).
 
+#### Initial Interaction and Flash Loan Acquisition
+
+“CALL | [Receiver] 0x47c5d8459404e5a6f42164427accd27bb7240fdfe2.doHardWork (uint256)(threshold:950) > ()”
+The exploit is initiated with a call from the attacker’s custom contract. The function name 
+‘doHardWork’ suggests a specifically designed contract for this exploit, as seen in the screenshot 
+above.
+“CALL dYdX: Solo Margin.operate(uint256) (accounts:[{owner:0x47c5d8459404054f4216472acccd37bb7240fdfe2, 
+number:1}], actions:[{actionType:1, accountId:0, amount:{sign:false, denomination:0, ref:0, 
+value:70,000.000,000,000,000,000,000}, primaryMarketId:0, secondaryMarketId:0, 
+otherAddress:0x0000000000000000000000000000000000000000, otherAccountId:0, data:0x}]) → ()”
+According to Figure 26 above, the contract interacts with the ‘dYdX solo margin’ to set up a flash loan 
+worth 70,000 WETH which acts as capital for the exploitation. Utilization of flash loans is a typical 
+practice in Ethereum smart contract attacks, it allows entities to temporarily access large sums of funds 
+without leveraging any collateral.
