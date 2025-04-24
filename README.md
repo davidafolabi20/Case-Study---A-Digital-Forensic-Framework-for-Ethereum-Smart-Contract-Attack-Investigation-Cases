@@ -194,3 +194,38 @@ Again, using the first exploit transaction;
 <p align="center">
   <em>Figure 16: Transaction Map visualised by BlockSec MetaSleuth, part 2</em>
 </p>
+
+### Evidence Correlation
+In this stage of the forensic investigation, we will highlight key findings from the forensic process and correlate them with evidence found on-chain, that is, evidence found on the Ethereum explorer (Etherscan).
+
+#### The key findings include:
+  * Attacker’s address: The exploit was reported to have been executed from the Ethereum address: [0xb77f7BBAC3264ae7aBC8aEDf2Ec5F4e7cA079F83](https://etherscan.io/address/0xb77f7bbac3264ae7abc8aedf2ec5f4e7ca079f83). This has been confirmed by the multiple transactions seen on Etherscan, see Figure 7 from the Transaction analysis section above. In addition, it was also confirmed by the invocation flow provided by Blocksec MetaSleuth, see Figure 17 below.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/a1816bf9-1aed-45aa-a2f9-e4671350788f alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 17: Address of the attacker</em>
+</p>
+
+  * Malicious Smart Contract: The attacker indeed created a smart contract and used it to execute the exploit on Origin         OUSD. The findings from Etherscan and the invocation flow both point to this fact, see Figure 14 above. In the image        below, the invocation flow shows the attacker making a call to the ‘**doHardWork**’ function residing in the smart          contract they created.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/f435dbeb-1000-4e69-870b-6dcc1833062a alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 18: At the start of the exploit, the attacker makes a call to a function residing in the contract they created in order to exploit Origin OUSD</em>
+</p>
+    
+  * The time and date of the first exploit was recorded by Etherscan to be Nov-17-2020, 12:47:19 AM UTC. This is confirmed      by Blocksec Phalcon and MetaSleuth, see the figure below.
+<p align="center">
+  <img src=https://github.com/user-attachments/assets/113abd1a-ba4f-40d1-9841-2e1041e1688d alt="Origin Protocol Exploit">
+</p>
+<p align="center">
+  <em>Figure 19: Date and time of the attack, reported by Blocksec Phalcon</em>
+</p>
+ 
+  * Initial Transaction and Actions: The initial transaction can be identified by this transaction hash:                        [0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401]                                                        (https://etherscan.io/tx/0xe1c76241dda7c5fcf1988454c621142495640e708e3f8377982f55f8cf2a8401). From the invocation flow      examination carried out earlier, we can see that the first action was to set up and acquire a flash loan worth              “**70,000 WETH**”, this flash loan was used as a sort of capital to fund the entire exploit, see the section on             Invocation Flow.
+  * The next set of actions included a series of token swaps, which had adverse consequences on the liquidity pools and         price oracles of Origin **OUSD**. Most significantly, the attacker mints and immediately redeems an enormous amount of      **OUSD** tokens, which was made possible due to earlier manipulated price oracles. This was an exploitation of the          rebasing logic of the Origin **OUSD**.
+  * Finally, the attacker withdraws their profit and repays the flash loan, which was earlier acquired, see Figure 6.
+  * After the exploit was concluded, the attacker proceeded to deposit their ill gains to several known fund trail              obfuscators, Tornado Cash and Ren: BTC gateway. This exfiltration of funds did not all occur on the same day, the image     below shows further deposits to the obfuscators **63 days** after the exploit. The funds trail mostly dies at this          point.
+
+**NB**: Ren BTC Gateway; This is an entity that converts a host of tokens from any blockchain into Bitcoin. This indicates      that the attacker offloaded a chunk of the ill gains in exchange for Bitcoin.
